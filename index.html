@@ -87,12 +87,12 @@
           <div class="border-2 border-black p-3 bg-white">
             <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
               <span class="text-xl sm:text-2xl font-black text-black">Google 路況時間</span>
-              <span class="text-sm font-bold text-black">新威園 ➔ 元朗</span>
+              <span class="text-sm font-bold text-black">新威園 ➔ 形點</span>
             </div>
             <div class="flex justify-between items-center py-2 text-lg font-black text-black">
               <div class="flex items-center gap-2">
                 <span>估計車程</span>
-                <a href="https://www.google.com/maps/dir/Sun+Wei+Garden/Yuen+Long" target="_blank" class="text-xs border border-black px-1.5 py-0.5 hover:bg-black hover:text-white transition-colors">
+                <a href="https://www.google.com/maps/dir/Sun+Wei+Garden/YOHO+MALL" target="_blank" class="text-xs border border-black px-1.5 py-0.5 hover:bg-black hover:text-white transition-colors">
                   開啟地圖 ↗
                 </a>
               </div>
@@ -106,7 +106,7 @@
           <div class="border-2 border-black p-3 bg-white">
             <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
               <span class="text-2xl font-black text-black">968X 巴士</span>
-              <span class="text-sm sm:text-base font-bold text-black">新威園 往 元朗</span>
+              <span class="text-sm sm:text-base font-bold text-black">新威園 往 形點</span>
             </div>
             <div id="xiaban-bus" class="divide-y border-dashed border-gray-400">
               <div class="py-2 text-sm font-bold animate-pulse text-black">載入中...</div>
@@ -121,11 +121,11 @@
   <script>
     // Configuration: Add your Google Distance Matrix / Directions Proxy Endpoint here
     // If empty or null, it falls back to a mocked/placeholder traffic state with quick Google Maps links
-    const GOOGLE_TRAFFIC_API_MORNING = ""; // e.g., "/api/traffic?from=YuenLong&to=QuarryBay"
-    const GOOGLE_TRAFFIC_API_EVENING = ""; // e.g., "/api/traffic?from=QuarryBay&to=YuenLong"
+    const GOOGLE_TRAFFIC_API_MORNING = ""; // e.g., "/api/traffic?from=YOHO+MALL&to=QuarryBay"
+    const GOOGLE_TRAFFIC_API_EVENING = ""; // e.g., "/api/traffic?from=Sun+Wei+Garden&to=YOHO+MALL"
 
     // KMB Stop IDs
-    const STOP_YUEN_LONG = "723EF8D7809D3ADB";   // YOHO Mall I (形點 I)
+    const STOP_YUEN_LONG = "723EF8D7809D3ADB";   // YOHO Mall II (形點 II)
     const STOP_QUARRY_BAY = "F75D0D2C6014A854";  // Sun Wei Garden (新威園)
 
     const API_YUEN_LONG = `https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${STOP_YUEN_LONG}`;
