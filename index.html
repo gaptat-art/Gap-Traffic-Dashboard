@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KMB 968X Live Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-black min-h-screen p-3 sm:p-5 font-sans antialiased">
+
+  <div class="max-w-xl mx-auto space-y-4">
+    
+    <!-- Top Header Bar -->
+    <header class="border-b-2 border-black pb-3">
+      <div class="flex justify-between items-start">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-black uppercase">
+            968X Bus Dashboard
+          </h1>
+          <div class="flex items-center gap-3 text-sm font-bold text-black mt-1">
+            <span id="current-time">--:--:--</span>
+            <span>•</span>
+            <span>刷新倒數: <span id="countdown">20</span>s</span>
+          </div>
+        </div>
+
+        <button id="refresh-btn" class="border-2 border-black px-3 py-1.5 font-black text-center text-xs sm:text-sm active:bg-black active:text-white transition-colors">
+          刷新<br/><span class="text-[9px] tracking-widest">REFRESH</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="space-y-6">
+      
+      <!-- Section 1: 上班 Morning Commute -->
+      <section>
+        <div class="flex items-center gap-2 border-l-[6px] border-black pl-2.5 mb-3">
+          <h2 class="text-xl sm:text-2xl font-black text-black">
+            上班 <span class="text-base font-bold">Morning Commute</span>
+          </h2>
+        </div>
+
+        <div class="space-y-3">
+          <!-- KMB 968X Yuen Long Box -->
+          <div class="border-2 border-black p-3 bg-white">
+            <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
+              <span class="text-2xl font-black text-black">968X</span>
+              <span class="text-sm sm:text-base font-bold text-black">形點 I 往 鰂魚涌</span>
+            </div>
+            <div id="shangban-bus" class="divide-y border-dashed border-gray-400">
+              <div class="py-2 text-sm font-bold animate-pulse text-black">載入中...</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: 下班 Evening Commute -->
+      <section>
+        <div class="flex items-center gap-2 border-l-[6px] border-black pl-2.5 mb-3">
+          <h2 class="text-xl sm:text-2xl font-black text-black">
+            下班 <span class="text-base font-bold">Evening Return</span>
+          </h2>
+        </div>
+
+        <div class="space-y-3">
+          <!-- KMB 968X Quarry Bay Box -->
+          <div class="border-2 border-black p-3 bg-white">
+            <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
+              <span class="text-2xl font-black text-black">968X</span>
+              <span class="text-sm sm:text-base font-bold text-black">新威園 往 元朗</span>
+            </div>
+            <div id="xiaban-bus" class="divide-y border-dashed border-gray-400">
+              <div class="py-2 text-sm font-bold animate-pulse text-black">載入中...</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    // KMB Stop IDs
+    // YOHO Mall I (形點 I) towards Quarry Bay
+    const STOP_YUEN_LONG = "91FD06AE6418FC3B"; 
+    // Sun Wei Garden (新威園) towards Yuen Long
+    const STOP_QUARRY_BAY = "A15609B162638848";
+
+    const API_YUEN_LONG = `https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${STOP_YUEN_LONG}`;
+    const API_QUARRY_BAY = `https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${STOP_QUARRY_BAY}`;
+
+    let timerSeconds = 20;
+    let countdownInterval = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("refresh-btn").addEventListener("click", manualRefresh);
+      startClock();
+      loadDashboard();
+      startTimer();
+    });
+
+    function startClock() {
+      setInterval(() => {
+        const now = new Date();
+        const timeStr = now.toTimeString().split(' ')[0];
+        document.getElementById("current-time").innerText = timeStr;
+      }, 1000);
+    }
+
+    async function fetchBusETA(url) {
+      try {
+        const res = await fetch(url);
+        if (res.ok) {
+          const json = await res.json();
+          return json.data || [];
+        }
+      } catch (e) {
+        console.error("Failed to fetch bus ETA:", e);
+      }
+      return [];
+    }
+
+    async function loadDashboard() {
+      const [ylData, qbData] = await Promise.all([
+        fetchBusETA(API_YUEN_LONG),
+        fetchBusETA(API_QUARRY_BAY)
+      ]);
+
+      renderBusRows("shangban-bus", ylData);
+      renderBusRows("xiaban-bus", qbData);
+    }
+
+    function renderBusRows(elementId, etaList) {
+      const container = document.getElementById(elementId);
+      
+      // Filter for route 968X
+      const filtered = etaList.filter(item => item.route === "968X" && item.eta);
+
+      if (!filtered || filtered.length === 0) {
+        container.innerHTML = `<div class="py-2 text-sm font-bold text-gray-500">服務只限於平日特定時間 / 暫無數據</div>`;
+        return;
+      }
+
+      const rows = filtered.slice(0, 3).map(item => {
+        const etaTime = new Date(item.eta);
+        const now = new Date();
+        const diffMs = etaTime - now;
+        const diffMins = Math.max(0, Math.floor(diffMs / 60000));
+
+        const clockTime = item.eta.substring(11, 16);
+        const minText = diffMins <= 1 ? "即將" : `${diffMins} min`;
+        const remark = item.rmk_tc ? ` (${item.rmk_tc})` : "";
+
+        return `
+          <div class="flex justify-between items-center py-2 border-b border-dashed border-gray-400 last:border-b-0 text-lg font-black text-black">
+            <div>
+              <span>${clockTime}</span>
+              <span class="text-xs font-bold text-gray-600 ml-1">${remark}</span>
+            </div>
+            <span class="text-xl font-black">${minText}</span>
+          </div>
+        `;
+      }).join('');
+
+      container.innerHTML = rows;
+    }
+
+    function startTimer() {
+      clearInterval(countdownInterval);
+      timerSeconds = 20;
+      updateTimerUI();
+
+      countdownInterval = setInterval(() => {
+        timerSeconds--;
+        updateTimerUI();
+
+        if (timerSeconds <= 0) {
+          loadDashboard();
+          timerSeconds = 20;
+        }
+      }, 1000);
+    }
+
+    function updateTimerUI() {
+      document.getElementById("countdown").innerText = timerSeconds;
+    }
+
+    function manualRefresh() {
+      loadDashboard();
+      startTimer();
+    }
+  </script>
+</body>
+</html>
