@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>KMB 968X Live Dashboard</title>
+  <title>KMB 968X & Traffic Live Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-white text-black min-h-screen p-3 sm:p-5 font-sans antialiased">
@@ -15,7 +15,7 @@
       <div class="flex justify-between items-start">
         <div>
           <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-black uppercase">
-            968X Bus Dashboard
+            968X Bus & Traffic
           </h1>
           <div class="flex items-center gap-3 text-sm font-bold text-black mt-1">
             <span id="current-time">--:--:--</span>
@@ -42,11 +42,30 @@
         </div>
 
         <div class="space-y-3">
+          <!-- Traffic Duration Box (Morning) -->
+          <div class="border-2 border-black p-3 bg-white">
+            <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
+              <span class="text-xl sm:text-2xl font-black text-black">Google 路況時間</span>
+              <span class="text-sm font-bold text-black">形點 I ➔ 鰂魚涌</span>
+            </div>
+            <div class="flex justify-between items-center py-2 text-lg font-black text-black">
+              <div class="flex items-center gap-2">
+                <span>估計車程</span>
+                <a href="https://www.google.com/maps/dir/YOHO+MALL+I/Quarry+Bay" target="_blank" class="text-xs border border-black px-1.5 py-0.5 hover:bg-black hover:text-white transition-colors">
+                  開啟地圖 ↗
+                </a>
+              </div>
+              <span id="traffic-morning" class="text-xl font-black bg-black text-white px-2 py-0.5">
+                載入中...
+              </span>
+            </div>
+          </div>
+
           <!-- KMB 968X Yuen Long Box -->
           <div class="border-2 border-black p-3 bg-white">
             <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
-              <span class="text-2xl font-black text-black">968X</span>
-              <span class="text-sm sm:text-base font-bold text-black">形點 II 往 鰂魚涌</span>
+              <span class="text-2xl font-black text-black">968X 巴士</span>
+              <span class="text-sm sm:text-base font-bold text-black">形點 I 往 鰂魚涌</span>
             </div>
             <div id="shangban-bus" class="divide-y border-dashed border-gray-400">
               <div class="py-2 text-sm font-bold animate-pulse text-black">載入中...</div>
@@ -64,11 +83,30 @@
         </div>
 
         <div class="space-y-3">
+          <!-- Traffic Duration Box (Evening) -->
+          <div class="border-2 border-black p-3 bg-white">
+            <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
+              <span class="text-xl sm:text-2xl font-black text-black">Google 路況時間</span>
+              <span class="text-sm font-bold text-black">新威園 ➔ 元朗</span>
+            </div>
+            <div class="flex justify-between items-center py-2 text-lg font-black text-black">
+              <div class="flex items-center gap-2">
+                <span>估計車程</span>
+                <a href="https://www.google.com/maps/dir/Sun+Wei+Garden/Yuen+Long" target="_blank" class="text-xs border border-black px-1.5 py-0.5 hover:bg-black hover:text-white transition-colors">
+                  開啟地圖 ↗
+                </a>
+              </div>
+              <span id="traffic-evening" class="text-xl font-black bg-black text-white px-2 py-0.5">
+                載入中...
+              </span>
+            </div>
+          </div>
+
           <!-- KMB 968X Quarry Bay Box -->
           <div class="border-2 border-black p-3 bg-white">
             <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
-              <span class="text-2xl font-black text-black">968X</span>
-              <span class="text-sm sm:text-base font-bold text-black"> 鰂魚涌 往 元朗</span>
+              <span class="text-2xl font-black text-black">968X 巴士</span>
+              <span class="text-sm sm:text-base font-bold text-black">新威園 往 元朗</span>
             </div>
             <div id="xiaban-bus" class="divide-y border-dashed border-gray-400">
               <div class="py-2 text-sm font-bold animate-pulse text-black">載入中...</div>
@@ -81,11 +119,14 @@
   </div>
 
   <script>
+    // Configuration: Add your Google Distance Matrix / Directions Proxy Endpoint here
+    // If empty or null, it falls back to a mocked/placeholder traffic state with quick Google Maps links
+    const GOOGLE_TRAFFIC_API_MORNING = ""; // e.g., "/api/traffic?from=YuenLong&to=QuarryBay"
+    const GOOGLE_TRAFFIC_API_EVENING = ""; // e.g., "/api/traffic?from=QuarryBay&to=YuenLong"
+
     // KMB Stop IDs
-    // YOHO Mall I (形點 I) towards Quarry Bay
-    const STOP_YUEN_LONG = "723EF8D7809D3ADB"; 
-    // Sun Wei Garden (新威園) towards Yuen Long
-    const STOP_QUARRY_BAY = "F75D0D2C6014A854";
+    const STOP_YUEN_LONG = "91FD06AE6418FC3B";   // YOHO Mall I (形點 I)
+    const STOP_QUARRY_BAY = "A15609B162638848";  // Sun Wei Garden (新威園)
 
     const API_YUEN_LONG = `https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${STOP_YUEN_LONG}`;
     const API_QUARRY_BAY = `https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${STOP_QUARRY_BAY}`;
@@ -121,10 +162,35 @@
       return [];
     }
 
+    async function fetchTraffic(apiUrl, elementId, fallbackText) {
+      const el = document.getElementById(elementId);
+      if (!apiUrl) {
+        el.innerText = fallbackText;
+        return;
+      }
+
+      try {
+        const res = await fetch(apiUrl);
+        if (res.ok) {
+          const data = await res.json();
+          // Expecting response JSON format: { duration: "48 mins" }
+          el.innerText = data.duration || fallbackText;
+        } else {
+          el.innerText = fallbackText;
+        }
+      } catch (e) {
+        console.warn("Traffic API fetch error:", e);
+        el.innerText = fallbackText;
+      }
+    }
+
     async function loadDashboard() {
+      // Fetch Bus ETAs and Traffic updates in parallel
       const [ylData, qbData] = await Promise.all([
         fetchBusETA(API_YUEN_LONG),
-        fetchBusETA(API_QUARRY_BAY)
+        fetchBusETA(API_QUARRY_BAY),
+        fetchTraffic(GOOGLE_TRAFFIC_API_MORNING, "traffic-morning", "約 45-55 分鐘"),
+        fetchTraffic(GOOGLE_TRAFFIC_API_EVENING, "traffic-evening", "約 45-55 分鐘")
       ]);
 
       renderBusRows("shangban-bus", ylData);
@@ -134,7 +200,7 @@
     function renderBusRows(elementId, etaList) {
       const container = document.getElementById(elementId);
       
-      // Filter for route 968X
+      // Filter specifically for route 968X
       const filtered = etaList.filter(item => item.route === "968X" && item.eta);
 
       if (!filtered || filtered.length === 0) {
