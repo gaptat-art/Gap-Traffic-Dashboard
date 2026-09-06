@@ -10,6 +10,7 @@
 
   <div class="max-w-xl mx-auto space-y-4">
     
+    <!-- Top Header Bar -->
     <header class="border-b-2 border-black pb-3">
       <div class="flex justify-between items-start">
         <div>
@@ -29,8 +30,10 @@
       </div>
     </header>
 
+    <!-- Main Content Container -->
     <main class="space-y-6">
       
+      <!-- Section 1: 上班 Morning Commute -->
       <section>
         <div class="flex items-center gap-2 border-l-[6px] border-black pl-2.5 mb-3">
           <h2 class="text-xl sm:text-2xl font-black text-black">
@@ -39,24 +42,26 @@
         </div>
 
         <div class="space-y-3">
+          <!-- Traffic Duration Box (Morning) -->
           <div class="border-2 border-black p-3 bg-white">
             <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
               <span class="text-xl sm:text-2xl font-black text-black">Google 路況時間</span>
-              <span class="text-sm font-bold text-black">形點 ➔ Sunway Gardens</span>
+              <span class="text-sm font-bold text-black">形點 ➔ 新威園</span>
             </div>
             <div class="flex justify-between items-center py-2 text-lg font-black text-black">
               <div class="flex items-center gap-2">
-                <span>估計車程</span>
+                <span>估計駕車時間</span>
                 <a href="https://www.google.com/maps/dir/?api=1&origin=YOHO+MALL,Yuen+Long,Hong+Kong&destination=Sunway+Gardens,King%27s+Road,Hong+Kong&travelmode=driving" target="_blank" class="text-xs border border-black px-1.5 py-0.5 hover:bg-black hover:text-white transition-colors">
                   開啟地圖 ↗
                 </a>
               </div>
               <span id="traffic-morning" class="text-xl font-black bg-black text-white px-2 py-0.5">
-                點擊地圖查看
+                約 45-55 分鐘
               </span>
             </div>
           </div>
 
+          <!-- KMB 968X Yuen Long Box -->
           <div class="border-2 border-black p-3 bg-white">
             <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
               <span class="text-2xl font-black text-black">968X 巴士</span>
@@ -69,6 +74,7 @@
         </div>
       </section>
 
+      <!-- Section 2: 下班 Evening Commute -->
       <section>
         <div class="flex items-center gap-2 border-l-[6px] border-black pl-2.5 mb-3">
           <h2 class="text-xl sm:text-2xl font-black text-black">
@@ -77,24 +83,26 @@
         </div>
 
         <div class="space-y-3">
+          <!-- Traffic Duration Box (Evening) -->
           <div class="border-2 border-black p-3 bg-white">
             <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
               <span class="text-xl sm:text-2xl font-black text-black">Google 路況時間</span>
-              <span class="text-sm font-bold text-black">Sunway Gardens ➔ 形點</span>
+              <span class="text-sm font-bold text-black">新威園 ➔ 形點</span>
             </div>
             <div class="flex justify-between items-center py-2 text-lg font-black text-black">
               <div class="flex items-center gap-2">
-                <span>估計車程</span>
+                <span>估計駕車時間</span>
                 <a href="https://www.google.com/maps/dir/?api=1&origin=Sunway+Gardens,King%27s+Road,Hong+Kong&destination=YOHO+MALL,Yuen+Long,Hong+Kong&travelmode=driving" target="_blank" class="text-xs border border-black px-1.5 py-0.5 hover:bg-black hover:text-white transition-colors">
                   開啟地圖 ↗
                 </a>
               </div>
               <span id="traffic-evening" class="text-xl font-black bg-black text-white px-2 py-0.5">
-                點擊地圖查看
+                約 45-55 分鐘
               </span>
             </div>
           </div>
 
+          <!-- KMB 968X Quarry Bay Box -->
           <div class="border-2 border-black p-3 bg-white">
             <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
               <span class="text-2xl font-black text-black">968X 巴士</span>
@@ -180,8 +188,8 @@
       const [ylData, qbData] = await Promise.all([
         fetchBusETA(API_YUEN_LONG),
         fetchBusETA(API_QUARRY_BAY),
-        fetchTraffic(GOOGLE_TRAFFIC_API_MORNING, "traffic-morning", "點擊地圖查看"),
-        fetchTraffic(GOOGLE_TRAFFIC_API_EVENING, "traffic-evening", "點擊地圖查看")
+        fetchTraffic(GOOGLE_TRAFFIC_API_MORNING, "traffic-morning", "約 45-55 分鐘"),
+        fetchTraffic(GOOGLE_TRAFFIC_API_EVENING, "traffic-evening", "約 45-55 分鐘")
       ]);
 
       renderBusRows("shangban-bus", ylData);
