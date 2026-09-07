@@ -10,6 +10,7 @@
 
   <div class="max-w-xl mx-auto space-y-4">
     
+    <!-- Top Header Bar -->
     <header class="border-b-2 border-black pb-3">
       <div class="flex justify-between items-start">
         <div>
@@ -29,8 +30,10 @@
       </div>
     </header>
 
+    <!-- Main Content Container -->
     <main class="space-y-6">
       
+      <!-- Section 1: 上班 Morning Commute -->
       <section>
         <div class="flex items-center gap-2 border-l-[6px] border-black pl-2.5 mb-3">
           <h2 class="text-xl sm:text-2xl font-black text-black">
@@ -39,6 +42,7 @@
         </div>
 
         <div class="space-y-3">
+          <!-- Traffic Duration Box (Morning) -->
           <div class="border-2 border-black p-3 bg-white">
             <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
               <span class="text-xl sm:text-2xl font-black text-black">Google 路況時間</span>
@@ -56,18 +60,28 @@
               </span>
             </div>
 
-            <div class="mt-3 pt-2 border-t border-dashed border-gray-400">
+            <!-- CCTV Live Snapshot Boxes (Morning: Tai Lam Tunnel & Western Harbour Crossing) -->
+            <div class="mt-3 pt-2 border-t border-dashed border-gray-400 space-y-2">
               <div class="flex justify-between items-center mb-1">
                 <span class="text-xs font-bold text-gray-700">即時路面閉路電視 (CCTV)</span>
                 <span class="text-[10px] text-gray-500">每分鐘自動更新</span>
               </div>
+              
+              <!-- Tai Lam Tunnel View -->
               <div class="relative border border-black bg-gray-100 overflow-hidden aspect-video">
-                <img id="cctv-morning" src="https://tdcctv.data.gov.hk/images/H401F.JPG" alt="Traffic Snapshot" class="w-full h-full object-cover" />
-                <div class="absolute bottom-1 left-1 bg-black text-white text-[10px] px-1 font-mono">西區海底隧道 (九龍入口)</div>
+                <img id="cctv-morning-1" src="https://tdcctv.data.one.gov.hk/TL102F.JPG" alt="Tai Lam Tunnel Snapshot" class="w-full h-full object-cover" />
+                <div class="absolute bottom-1 left-1 bg-black text-white text-[10px] px-1 font-mono">大欖隧道 (元朗入口) [TL102F]</div>
+              </div>
+
+              <!-- Western Harbour Crossing View -->
+              <div class="relative border border-black bg-gray-100 overflow-hidden aspect-video">
+                <img id="cctv-morning-2" src="https://tdcctv.data.one.gov.hk/K914F.JPG" alt="Western Harbour Crossing Snapshot" class="w-full h-full object-cover" />
+                <div class="absolute bottom-1 left-1 bg-black text-white text-[10px] px-1 font-mono">西九龍公路近麗灣花園 [K914F]</div>
               </div>
             </div>
           </div>
 
+          <!-- KMB 968X Yuen Long Box -->
           <div class="border-2 border-black p-3 bg-white">
             <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
               <span class="text-2xl font-black text-black">968X 巴士</span>
@@ -80,6 +94,7 @@
         </div>
       </section>
 
+      <!-- Section 2: 下班 Evening Commute -->
       <section>
         <div class="flex items-center gap-2 border-l-[6px] border-black pl-2.5 mb-3">
           <h2 class="text-xl sm:text-2xl font-black text-black">
@@ -88,6 +103,7 @@
         </div>
 
         <div class="space-y-3">
+          <!-- Traffic Duration Box (Evening) -->
           <div class="border-2 border-black p-3 bg-white">
             <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
               <span class="text-xl sm:text-2xl font-black text-black">Google 路況時間</span>
@@ -105,18 +121,20 @@
               </span>
             </div>
 
+            <!-- CCTV Live Snapshot Box (Evening: Eastern Harbour Corridor) -->
             <div class="mt-3 pt-2 border-t border-dashed border-gray-400">
               <div class="flex justify-between items-center mb-1">
                 <span class="text-xs font-bold text-gray-700">即時路面閉路電視 (CCTV)</span>
                 <span class="text-[10px] text-gray-500">每分鐘自動更新</span>
               </div>
               <div class="relative border border-black bg-gray-100 overflow-hidden aspect-video">
-                <img id="cctv-evening" src="https://tdcctv.data.gov.hk/images/H104F.JPG" alt="Traffic Snapshot" class="w-full h-full object-cover" />
-                <div class="absolute bottom-1 left-1 bg-black text-white text-[10px] px-1 font-mono">東區走廊 (近鰂魚涌)</div>
+                <img id="cctv-evening" src="https://tdcctv.data.one.gov.hk/H803F.JPG" alt="Traffic Snapshot" class="w-full h-full object-cover" />
+                <div class="absolute bottom-1 left-1 bg-black text-white text-[10px] px-1 font-mono">東區走廊近鰂魚涌公園 [H803F]</div>
               </div>
             </div>
           </div>
 
+          <!-- KMB 968X Quarry Bay Box -->
           <div class="border-2 border-black p-3 bg-white">
             <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
               <span class="text-2xl font-black text-black">968X 巴士</span>
@@ -138,8 +156,8 @@
     const GOOGLE_TRAFFIC_API_EVENING = ""; 
 
     // KMB Stop IDs
-    const STOP_YUEN_LONG = "723EF8D7809D3ADB";   // YOHO Mall II (形點 II)
-    const STOP_QUARRY_BAY = "F75D0D2C6014A854";  // Sunway Gardens (新威園)
+    const STOP_YUEN_LONG = "723EF8D7809D3ADB";   
+    const STOP_QUARRY_BAY = "F75D0D2C6014A854";  
 
     const API_YUEN_LONG = `https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${STOP_YUEN_LONG}`;
     const API_QUARRY_BAY = `https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${STOP_QUARRY_BAY}`;
@@ -175,14 +193,16 @@
       return [];
     }
 
-    // Function to refresh CCTV images by appending a timestamp query string to bypass browser caching
+    // Refresh CCTV images by updating the timestamp parameter to bypass browser caching
     function refreshCCTVImages() {
       const timestamp = new Date().getTime();
-      const morningImg = document.getElementById("cctv-morning");
+      const morning1 = document.getElementById("cctv-morning-1");
+      const morning2 = document.getElementById("cctv-morning-2");
       const eveningImg = document.getElementById("cctv-evening");
       
-      morningImg.src = `https://tdcctv.data.gov.hk/images/H401F.JPG?t=${timestamp}`;
-      eveningImg.src = `https://tdcctv.data.gov.hk/images/H104F.JPG?t=${timestamp}`;
+      morning1.src = `https://tdcctv.data.one.gov.hk/TL102F.JPG?t=${timestamp}`;
+      morning2.src = `https://tdcctv.data.one.gov.hk/K914F.JPG?t=${timestamp}`;
+      eveningImg.src = `https://tdcctv.data.one.gov.hk/H803F.JPG?t=${timestamp}`;
     }
 
     async function fetchTraffic(apiUrl, elementId, fallbackText) {
@@ -207,7 +227,6 @@
     }
 
     async function loadDashboard() {
-      // Fetch Bus ETAs, update CCTV snapshots, and handle traffic text updates in parallel
       const [ylData, qbData] = await Promise.all([
         fetchBusETA(API_YUEN_LONG),
         fetchBusETA(API_QUARRY_BAY),
@@ -222,8 +241,6 @@
 
     function renderBusRows(elementId, etaList) {
       const container = document.getElementById(elementId);
-      
-      // Filter specifically for route 968X
       const filtered = etaList.filter(item => item.route === "968X" && item.eta);
 
       if (!filtered || filtered.length === 0) {
