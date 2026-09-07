@@ -10,7 +10,6 @@
 
   <div class="max-w-xl mx-auto space-y-4">
     
-    <!-- Top Header Bar -->
     <header class="border-b-2 border-black pb-3">
       <div class="flex justify-between items-start">
         <div>
@@ -30,10 +29,8 @@
       </div>
     </header>
 
-    <!-- Main Content Container -->
     <main class="space-y-6">
       
-      <!-- Section 1: 上班 Morning Commute -->
       <section>
         <div class="flex items-center gap-2 border-l-[6px] border-black pl-2.5 mb-3">
           <h2 class="text-xl sm:text-2xl font-black text-black">
@@ -42,7 +39,6 @@
         </div>
 
         <div class="space-y-3">
-          <!-- Traffic Duration Box (Morning) -->
           <div class="border-2 border-black p-3 bg-white">
             <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
               <span class="text-xl sm:text-2xl font-black text-black">Google 路況時間</span>
@@ -51,7 +47,7 @@
             <div class="flex justify-between items-center py-2 text-lg font-black text-black">
               <div class="flex items-center gap-2">
                 <span>估計駕車時間</span>
-                <a href="https://www.google.com/maps/dir/?api=1&origin=YOHO+MALL,Yuen+Long,Hong+Kong&destination=Sunway+Gardens,King%27s+Road,Hong+Kong&travelmode=driving" target="_blank" class="text-xs border border-black px-1.5 py-0.5 hover:bg-black hover:text-white transition-colors">
+                <a href="https://www.google.com/maps/dir/YOHO+MALL,+Yuen+Long/Sunway+Gardens,+Quarry+Bay" target="_blank" class="text-xs border border-black px-1.5 py-0.5 hover:bg-black hover:text-white transition-colors">
                   開啟地圖 ↗
                 </a>
               </div>
@@ -59,9 +55,19 @@
                 約 45-55 分鐘
               </span>
             </div>
+
+            <div class="mt-3 pt-2 border-t border-dashed border-gray-400">
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-xs font-bold text-gray-700">即時路面閉路電視 (CCTV)</span>
+                <span class="text-[10px] text-gray-500">每分鐘自動更新</span>
+              </div>
+              <div class="relative border border-black bg-gray-100 overflow-hidden aspect-video">
+                <img id="cctv-morning" src="https://tdcctv.data.gov.hk/images/H401F.JPG" alt="Traffic Snapshot" class="w-full h-full object-cover" />
+                <div class="absolute bottom-1 left-1 bg-black text-white text-[10px] px-1 font-mono">西區海底隧道 (九龍入口)</div>
+              </div>
+            </div>
           </div>
 
-          <!-- KMB 968X Yuen Long Box -->
           <div class="border-2 border-black p-3 bg-white">
             <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
               <span class="text-2xl font-black text-black">968X 巴士</span>
@@ -74,7 +80,6 @@
         </div>
       </section>
 
-      <!-- Section 2: 下班 Evening Commute -->
       <section>
         <div class="flex items-center gap-2 border-l-[6px] border-black pl-2.5 mb-3">
           <h2 class="text-xl sm:text-2xl font-black text-black">
@@ -83,7 +88,6 @@
         </div>
 
         <div class="space-y-3">
-          <!-- Traffic Duration Box (Evening) -->
           <div class="border-2 border-black p-3 bg-white">
             <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
               <span class="text-xl sm:text-2xl font-black text-black">Google 路況時間</span>
@@ -92,7 +96,7 @@
             <div class="flex justify-between items-center py-2 text-lg font-black text-black">
               <div class="flex items-center gap-2">
                 <span>估計駕車時間</span>
-                <a href="https://www.google.com/maps/dir/?api=1&origin=Sunway+Gardens,King%27s+Road,Hong+Kong&destination=YOHO+MALL,Yuen+Long,Hong+Kong&travelmode=driving" target="_blank" class="text-xs border border-black px-1.5 py-0.5 hover:bg-black hover:text-white transition-colors">
+                <a href="https://www.google.com/maps/dir/Sunway+Gardens,+Quarry+Bay/YOHO+MALL,+Yuen+Long" target="_blank" class="text-xs border border-black px-1.5 py-0.5 hover:bg-black hover:text-white transition-colors">
                   開啟地圖 ↗
                 </a>
               </div>
@@ -100,9 +104,19 @@
                 約 45-55 分鐘
               </span>
             </div>
+
+            <div class="mt-3 pt-2 border-t border-dashed border-gray-400">
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-xs font-bold text-gray-700">即時路面閉路電視 (CCTV)</span>
+                <span class="text-[10px] text-gray-500">每分鐘自動更新</span>
+              </div>
+              <div class="relative border border-black bg-gray-100 overflow-hidden aspect-video">
+                <img id="cctv-evening" src="https://tdcctv.data.gov.hk/images/H104F.JPG" alt="Traffic Snapshot" class="w-full h-full object-cover" />
+                <div class="absolute bottom-1 left-1 bg-black text-white text-[10px] px-1 font-mono">東區走廊 (近鰂魚涌)</div>
+              </div>
+            </div>
           </div>
 
-          <!-- KMB 968X Quarry Bay Box -->
           <div class="border-2 border-black p-3 bg-white">
             <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
               <span class="text-2xl font-black text-black">968X 巴士</span>
@@ -120,12 +134,12 @@
 
   <script>
     // Configuration: Optional proxy server endpoint for live traffic duration
-    const GOOGLE_TRAFFIC_API_MORNING = ""; // e.g., "/api/traffic?from=YOHO+MALL&to=Sunway+Gardens"
-    const GOOGLE_TRAFFIC_API_EVENING = ""; // e.g., "/api/traffic?from=Sunway+Gardens&to=YOHO+MALL"
+    const GOOGLE_TRAFFIC_API_MORNING = ""; 
+    const GOOGLE_TRAFFIC_API_EVENING = ""; 
 
     // KMB Stop IDs
     const STOP_YUEN_LONG = "723EF8D7809D3ADB";   // YOHO Mall II (形點 II)
-    const STOP_QUARRY_BAY = "F75D0D2C6014A854";  // Sunway Gardens / Sun Wei Garden (新威園)
+    const STOP_QUARRY_BAY = "F75D0D2C6014A854";  // Sunway Gardens (新威園)
 
     const API_YUEN_LONG = `https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${STOP_YUEN_LONG}`;
     const API_QUARRY_BAY = `https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${STOP_QUARRY_BAY}`;
@@ -161,6 +175,16 @@
       return [];
     }
 
+    // Function to refresh CCTV images by appending a timestamp query string to bypass browser caching
+    function refreshCCTVImages() {
+      const timestamp = new Date().getTime();
+      const morningImg = document.getElementById("cctv-morning");
+      const eveningImg = document.getElementById("cctv-evening");
+      
+      morningImg.src = `https://tdcctv.data.gov.hk/images/H401F.JPG?t=${timestamp}`;
+      eveningImg.src = `https://tdcctv.data.gov.hk/images/H104F.JPG?t=${timestamp}`;
+    }
+
     async function fetchTraffic(apiUrl, elementId, fallbackText) {
       const el = document.getElementById(elementId);
       if (!apiUrl) {
@@ -172,7 +196,6 @@
         const res = await fetch(apiUrl);
         if (res.ok) {
           const data = await res.json();
-          // Expecting response JSON format: { duration: "48 mins" }
           el.innerText = data.duration || fallbackText;
         } else {
           el.innerText = fallbackText;
@@ -184,7 +207,7 @@
     }
 
     async function loadDashboard() {
-      // Fetch Bus ETAs and Traffic updates in parallel
+      // Fetch Bus ETAs, update CCTV snapshots, and handle traffic text updates in parallel
       const [ylData, qbData] = await Promise.all([
         fetchBusETA(API_YUEN_LONG),
         fetchBusETA(API_QUARRY_BAY),
@@ -192,6 +215,7 @@
         fetchTraffic(GOOGLE_TRAFFIC_API_EVENING, "traffic-evening", "約 45-55 分鐘")
       ]);
 
+      refreshCCTVImages();
       renderBusRows("shangban-bus", ylData);
       renderBusRows("xiaban-bus", qbData);
     }
