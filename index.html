@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>KMB & Traffic Live Dashboard</title>
+  <title>KMB 968X & Traffic Live Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-white text-black min-h-screen p-3 sm:p-5 font-sans antialiased">
@@ -14,7 +14,7 @@
     <header class="border-b-2 border-black pb-3">
       <div class="flex justify-between items-start">
         <div>
-          <h1 id="main-title" class="text-2xl sm:text-3xl font-black tracking-tight text-black uppercase">
+          <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-black uppercase">
             968X Bus & Traffic
           </h1>
           <div class="flex items-center gap-3 text-sm font-bold text-black mt-1">
@@ -28,217 +28,126 @@
           刷新<br/><span class="text-[9px] tracking-widest">REFRESH</span>
         </button>
       </div>
-
-      <!-- Navigation Tabs -->
-      <div class="flex gap-2 mt-3">
-        <button onclick="switchTab('work')" id="tab-work" class="flex-1 border-2 border-black py-1.5 font-black text-sm bg-black text-white transition-colors">
-          Work
-        </button>
-        <button onclick="switchTab('ports')" id="tab-ports" class="flex-1 border-2 border-black py-1.5 font-black text-sm bg-white text-black hover:bg-gray-100 transition-colors">
-          深圳口岸
-        </button>
-      </div>
     </header>
 
     <!-- Main Content Container -->
     <main class="space-y-6">
       
-      <!-- TAB 1: WORK -->
-      <div id="content-work" class="space-y-6">
-        <!-- Global Live CCTV Snapshot Row -->
-        <section class="border-2 border-black p-3 bg-white">
-          <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
-            <span class="text-xl sm:text-2xl font-black text-black">即時路面閉路電視 (CCTV)</span>
-            <span class="text-xs font-bold text-gray-700">自動更新</span>
-          </div>
-          
-          <div class="grid grid-cols-3 gap-2">
-            <!-- Tai Lam Tunnel -->
-            <div class="flex flex-col">
-              <div class="relative border border-black bg-gray-100 overflow-hidden aspect-[4/3]">
-                <img id="cctv-tailam" src="https://tdcctv.data.one.gov.hk/TL102F.JPG" alt="Tai Lam Tunnel" class="w-full h-full object-cover" />
-              </div>
-              <span class="text-[11px] font-bold text-center mt-1 truncate">大欖隧道</span>
-            </div>
-
-            <!-- Western Harbour Crossing -->
-            <div class="flex flex-col">
-              <div class="relative border border-black bg-gray-100 overflow-hidden aspect-[4/3]">
-                <img id="cctv-western" src="https://tdcctv.data.one.gov.hk/K914F.JPG" alt="Western Harbour Crossing" class="w-full h-full object-cover" />
-              </div>
-              <span class="text-[11px] font-bold text-center mt-1 truncate">西區海底隧道</span>
-            </div>
-
-            <!-- Eastern Harbour Corridor -->
-            <div class="flex flex-col">
-              <div class="relative border border-black bg-gray-100 overflow-hidden aspect-[4/3]">
-                <img id="cctv-eastern" src="https://tdcctv.data.one.gov.hk/H803F.JPG" alt="Eastern Harbour Corridor" class="w-full h-full object-cover" />
-              </div>
-              <span class="text-[11px] font-bold text-center mt-1 truncate">東區走廊</span>
-            </div>
-          </div>
-        </section>
-
-        <!-- Section 1: 上班 Morning Commute -->
-        <section>
-          <div class="flex items-center gap-2 border-l-[6px] border-black pl-2.5 mb-3">
-            <h2 class="text-xl sm:text-2xl font-black text-black">
-              上班 <span class="text-base font-bold">Morning Commute</span>
-            </h2>
-          </div>
-
-          <div class="space-y-3">
-            <!-- Traffic Duration Box (Morning) -->
-            <div class="border-2 border-black p-3 bg-white">
-              <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
-                <span class="text-xl sm:text-2xl font-black text-black">Google 路況時間</span>
-                <span class="text-sm font-bold text-black">形點 ➔ 新威園</span>
-              </div>
-              <div class="flex justify-between items-center py-2 text-lg font-black text-black">
-                <div class="flex items-center gap-2">
-                  <span>估計駕車時間</span>
-                  <a href="https://www.google.com/maps/dir/YOHO+MALL,+Yuen+Long/Sunway+Gardens,+Quarry+Bay" target="_blank" class="text-xs border border-black px-1.5 py-0.5 hover:bg-black hover:text-white transition-colors">
-                    開啟地圖 ↗
-                  </a>
-                </div>
-                <span id="traffic-morning" class="text-xl font-black bg-black text-white px-2 py-0.5">
-                  約 45-55 分鐘
-                </span>
-              </div>
-            </div>
-
-            <!-- KMB 968X Yuen Long Box -->
-            <div class="border-2 border-black p-3 bg-white">
-              <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
-                <span class="text-2xl font-black text-black">968X 巴士</span>
-                <span class="text-sm sm:text-base font-bold text-black">形點 往 新威園</span>
-              </div>
-              <div id="shangban-bus" class="divide-y border-dashed border-gray-400">
-                <div class="py-2 text-sm font-bold animate-pulse text-black">載入中...</div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- Section 2: 下班 Evening Commute -->
-        <section>
-          <div class="flex items-center gap-2 border-l-[6px] border-black pl-2.5 mb-3">
-            <h2 class="text-xl sm:text-2xl font-black text-black">
-              下班 <span class="text-base font-bold">Evening Return</span>
-            </h2>
-          </div>
-
-          <div class="space-y-3">
-            <!-- Traffic Duration Box (Evening) -->
-            <div class="border-2 border-black p-3 bg-white">
-              <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
-                <span class="text-xl sm:text-2xl font-black text-black">Google 路況時間</span>
-                <span class="text-sm font-bold text-black">新威園 ➔ 形點</span>
-              </div>
-              <div class="flex justify-between items-center py-2 text-lg font-black text-black">
-                <div class="flex items-center gap-2">
-                  <span>估計駕車時間</span>
-                  <a href="https://www.google.com/maps/dir/Sunway+Gardens,+Quarry+Bay/YOHO+MALL,+Yuen+Long" target="_blank" class="text-xs border border-black px-1.5 py-0.5 hover:bg-black hover:text-white transition-colors">
-                    開啟地圖 ↗
-                  </a>
-                </div>
-                <span id="traffic-evening" class="text-xl font-black bg-black text-white px-2 py-0.5">
-                  約 45-55 分鐘
-                </span>
-              </div>
-            </div>
-
-            <!-- KMB 968X Quarry Bay Box -->
-            <div class="border-2 border-black p-3 bg-white">
-              <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
-                <span class="text-2xl font-black text-black">968X 巴士</span>
-                <span class="text-sm sm:text-base font-bold text-black">新威園 往 形點</span>
-              </div>
-              <div id="xiaban-bus" class="divide-y border-dashed border-gray-400">
-                <div class="py-2 text-sm font-bold animate-pulse text-black">載入中...</div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <!-- TAB 2: 深圳口岸 -->
-      <div id="content-ports" class="space-y-6 hidden">
+      <!-- Global Live CCTV Snapshot Row -->
+      <section class="border-2 border-black p-3 bg-white">
+        <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
+          <span class="text-xl sm:text-2xl font-black text-black">即時路面閉路電視 (CCTV)</span>
+          <span class="text-xs font-bold text-gray-700">自動更新</span>
+        </div>
         
-        <!-- 深圳灣口岸 Shenzhen Bay Port -->
-        <section class="border-2 border-black p-3 bg-white">
-          <div class="flex items-center gap-2 border-l-[6px] border-black pl-2.5 mb-3">
-            <h2 class="text-xl sm:text-2xl font-black text-black">
-              深圳灣口岸 <span class="text-base font-bold">Shenzhen Bay Port</span>
-            </h2>
-          </div>
-          <div class="space-y-3">
-            <!-- B2P -->
-            <div class="border-2 border-black p-3 bg-white">
-              <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
-                <span class="text-xl font-black text-black">B2P 巴士</span>
-                <span class="text-sm font-bold text-black">天水圍 (天慈) ➔ 深圳灣口岸</span>
-              </div>
-              <div id="bus-b2p" class="divide-y border-dashed border-gray-400">
-                <div class="py-2 text-sm font-bold animate-pulse text-black">載入中...</div>
-              </div>
+        <div class="grid grid-cols-3 gap-2">
+          <!-- Tai Lam Tunnel -->
+          <div class="flex flex-col">
+            <div class="relative border border-black bg-gray-100 overflow-hidden aspect-[4/3]">
+              <img id="cctv-tailam" src="https://tdcctv.data.one.gov.hk/TL102F.JPG" alt="Tai Lam Tunnel" class="w-full h-full object-cover" />
             </div>
-            <!-- XB2 -->
-            <div class="border-2 border-black p-3 bg-white">
-              <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
-                <span class="text-xl font-black text-black">XB2 巴士</span>
-                <span class="text-sm font-bold text-black">屯門市中心 ➔ 深圳灣口岸</span>
-              </div>
-              <div id="bus-xb2" class="divide-y border-dashed border-gray-400">
-                <div class="py-2 text-sm font-bold animate-pulse text-black">載入中...</div>
-              </div>
-            </div>
+            <span class="text-[11px] font-bold text-center mt-1 truncate">大欖隧道</span>
           </div>
-        </section>
 
-        <!-- 福田口岸 Futian Port -->
-        <section class="border-2 border-black p-3 bg-white">
-          <div class="flex items-center gap-2 border-l-[6px] border-black pl-2.5 mb-3">
-            <h2 class="text-xl sm:text-2xl font-black text-black">
-              福田口岸 <span class="text-base font-bold">Futian Port (落馬洲)</span>
-            </h2>
+          <!-- Western Harbour Crossing -->
+          <div class="flex flex-col">
+            <div class="relative border border-black bg-gray-100 overflow-hidden aspect-[4/3]">
+              <img id="cctv-western" src="https://tdcctv.data.one.gov.hk/K914F.JPG" alt="Western Harbour Crossing" class="w-full h-full object-cover" />
+            </div>
+            <span class="text-[11px] font-bold text-center mt-1 truncate">西區海底隧道</span>
           </div>
-          <div class="space-y-3">
-            <!-- B1 -->
-            <div class="border-2 border-black p-3 bg-white">
-              <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
-                <span class="text-xl font-black text-black">B1 巴士</span>
-                <span class="text-sm font-bold text-black">天水圍 / 元朗 ➔ 落馬洲站</span>
+
+          <!-- Eastern Harbour Corridor -->
+          <div class="flex flex-col">
+            <div class="relative border border-black bg-gray-100 overflow-hidden aspect-[4/3]">
+              <img id="cctv-eastern" src="https://tdcctv.data.one.gov.hk/H803F.JPG" alt="Eastern Harbour Corridor" class="w-full h-full object-cover" />
+            </div>
+            <span class="text-[11px] font-bold text-center mt-1 truncate">東區走廊</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 1: 上班 Morning Commute -->
+      <section>
+        <div class="flex items-center gap-2 border-l-[6px] border-black pl-2.5 mb-3">
+          <h2 class="text-xl sm:text-2xl font-black text-black">
+            上班 <span class="text-base font-bold">Morning Commute</span>
+          </h2>
+        </div>
+
+        <div class="space-y-3">
+          <!-- Traffic Duration Box (Morning) -->
+          <div class="border-2 border-black p-3 bg-white">
+            <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
+              <span class="text-xl sm:text-2xl font-black text-black">Google 路況時間</span>
+              <span class="text-sm font-bold text-black">形點 ➔ 新威園</span>
+            </div>
+            <div class="flex justify-between items-center py-2 text-lg font-black text-black">
+              <div class="flex items-center gap-2">
+                <span>估計駕車時間</span>
+                <a href="https://www.google.com/maps/dir/YOHO+MALL,+Yuen+Long/Sunway+Gardens,+Quarry+Bay" target="_blank" class="text-xs border border-black px-1.5 py-0.5 hover:bg-black hover:text-white transition-colors">
+                  開啟地圖 ↗
+                </a>
               </div>
-              <div id="bus-b1" class="divide-y border-dashed border-gray-400">
-                <div class="py-2 text-sm font-bold animate-pulse text-black">載入中...</div>
-              </div>
+              <span id="traffic-morning" class="text-xl font-black bg-black text-white px-2 py-0.5">
+                約 45-55 分鐘
+              </span>
             </div>
           </div>
-        </section>
 
-        <!-- 香園圍口岸 Heung Yuen Wai Port -->
-        <section class="border-2 border-black p-3 bg-white">
-          <div class="flex items-center gap-2 border-l-[6px] border-black pl-2.5 mb-3">
-            <h2 class="text-xl sm:text-2xl font-black text-black">
-              香園圍口岸 <span class="text-base font-bold">Heung Yuen Wai Port</span>
-            </h2>
-          </div>
-          <div class="space-y-3">
-            <!-- B9 -->
-            <div class="border-2 border-black p-3 bg-white">
-              <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
-                <span class="text-xl font-black text-black">B9 巴士</span>
-                <span class="text-sm font-bold text-black">屯門 ➔ 香園圍口岸</span>
-              </div>
-              <div id="bus-b9" class="divide-y border-dashed border-gray-400">
-                <div class="py-2 text-sm font-bold animate-pulse text-black">載入中...</div>
-              </div>
+          <!-- KMB 968X Yuen Long Box -->
+          <div class="border-2 border-black p-3 bg-white">
+            <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
+              <span class="text-2xl font-black text-black">968X 巴士</span>
+              <span class="text-sm sm:text-base font-bold text-black">形點 往 新威園</span>
+            </div>
+            <div id="shangban-bus" class="divide-y border-dashed border-gray-400">
+              <div class="py-2 text-sm font-bold animate-pulse text-black">載入中...</div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-      </div>
+      <!-- Section 2: 下班 Evening Commute -->
+      <section>
+        <div class="flex items-center gap-2 border-l-[6px] border-black pl-2.5 mb-3">
+          <h2 class="text-xl sm:text-2xl font-black text-black">
+            下班 <span class="text-base font-bold">Evening Return</span>
+          </h2>
+        </div>
+
+        <div class="space-y-3">
+          <!-- Traffic Duration Box (Evening) -->
+          <div class="border-2 border-black p-3 bg-white">
+            <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
+              <span class="text-xl sm:text-2xl font-black text-black">Google 路況時間</span>
+              <span class="text-sm font-bold text-black">新威園 ➔ 形點</span>
+            </div>
+            <div class="flex justify-between items-center py-2 text-lg font-black text-black">
+              <div class="flex items-center gap-2">
+                <span>估計駕車時間</span>
+                <a href="https://www.google.com/maps/dir/Sunway+Gardens,+Quarry+Bay/YOHO+MALL,+Yuen+Long" target="_blank" class="text-xs border border-black px-1.5 py-0.5 hover:bg-black hover:text-white transition-colors">
+                  開啟地圖 ↗
+                </a>
+              </div>
+              <span id="traffic-evening" class="text-xl font-black bg-black text-white px-2 py-0.5">
+                約 45-55 分鐘
+              </span>
+            </div>
+          </div>
+
+          <!-- KMB 968X Quarry Bay Box -->
+          <div class="border-2 border-black p-3 bg-white">
+            <div class="flex justify-between items-baseline border-b-2 border-black pb-1.5 mb-2">
+              <span class="text-2xl font-black text-black">968X 巴士</span>
+              <span class="text-sm sm:text-base font-bold text-black">新威園 往 形點</span>
+            </div>
+            <div id="xiaban-bus" class="divide-y border-dashed border-gray-400">
+              <div class="py-2 text-sm font-bold animate-pulse text-black">載入中...</div>
+            </div>
+          </div>
+        </div>
+      </section>
 
     </main>
   </div>
@@ -251,23 +160,9 @@
     const STOP_YUEN_LONG = "723EF8D7809D3ADB";   
     const STOP_QUARRY_BAY = "F75D0D2C6014A854";  
 
-    // Port Stop IDs (Example representative stops for direction towards control points)
-    // Using standard major boarding stops or hub interchange stops
-    const STOP_B2P = "92E2DFDC49B8CEF5"; // Tin Shui Wai bound / control bound representative
-    const STOP_XB2 = "C2BECAEBB212CC19"; 
-    const STOP_B1 = "723EF8D7809D3ADB";  // Yuen Long Yoho Mall stop as proxy for B1
-    const STOP_B9 = "C2BECAEBB212CC19";  // Tuen Mun representative
-
     const API_YUEN_LONG = `https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${STOP_YUEN_LONG}`;
     const API_QUARRY_BAY = `https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${STOP_QUARRY_BAY}`;
-    
-    // Port APIs
-    const API_B2P = `https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${STOP_B2P}`;
-    const API_XB2 = `https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${STOP_XB2}`;
-    const API_B1 = `https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${STOP_B1}`;
-    const API_B9 = `https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${STOP_B9}`;
 
-    let currentActiveTab = 'work';
     let timerSeconds = 20;
     let countdownInterval = null;
 
@@ -277,32 +172,6 @@
       loadDashboard();
       startTimer();
     });
-
-    function switchTab(tabName) {
-      currentActiveTab = tabName;
-      const workContent = document.getElementById("content-work");
-      const portsContent = document.getElementById("content-ports");
-      const tabWorkBtn = document.getElementById("tab-work");
-      const tabPortsBtn = document.getElementById("tab-ports");
-      const mainTitle = document.getElementById("main-title");
-
-      if (tabName === 'work') {
-        workContent.classList.remove("hidden");
-        portsContent.classList.add("hidden");
-        
-        tabWorkBtn.className = "flex-1 border-2 border-black py-1.5 font-black text-sm bg-black text-white transition-colors";
-        tabPortsBtn.className = "flex-1 border-2 border-black py-1.5 font-black text-sm bg-white text-black hover:bg-gray-100 transition-colors";
-        mainTitle.innerText = "968X Bus & Traffic";
-      } else {
-        workContent.classList.add("hidden");
-        portsContent.classList.remove("hidden");
-        
-        tabPortsBtn.className = "flex-1 border-2 border-black py-1.5 font-black text-sm bg-black text-white transition-colors";
-        tabWorkBtn.className = "flex-1 border-2 border-black py-1.5 font-black text-sm bg-white text-black hover:bg-gray-100 transition-colors";
-        mainTitle.innerText = "深圳口岸交通";
-      }
-      loadDashboard();
-    }
 
     function startClock() {
       setInterval(() => {
@@ -325,19 +194,16 @@
       return [];
     }
 
+    // Refresh CCTV images by updating the timestamp parameter to bypass browser caching
     function refreshCCTVImages() {
       const timestamp = new Date().getTime();
-      const tailam = document.getElementById("cctv-tailam");
-      const western = document.getElementById("cctv-western");
-      const eastern = document.getElementById("cctv-eastern");
-      if (tailam) tailam.src = `https://tdcctv.data.one.gov.hk/TL102F.JPG?t=${timestamp}`;
-      if (western) western.src = `https://tdcctv.data.one.gov.hk/K914F.JPG?t=${timestamp}`;
-      if (eastern) eastern.src = `https://tdcctv.data.one.gov.hk/H803F.JPG?t=${timestamp}`;
+      document.getElementById("cctv-tailam").src = `https://tdcctv.data.one.gov.hk/TL102F.JPG?t=${timestamp}`;
+      document.getElementById("cctv-western").src = `https://tdcctv.data.one.gov.hk/K914F.JPG?t=${timestamp}`;
+      document.getElementById("cctv-eastern").src = `https://tdcctv.data.one.gov.hk/H803F.JPG?t=${timestamp}`;
     }
 
     async function fetchTraffic(apiUrl, elementId, fallbackText) {
       const el = document.getElementById(elementId);
-      if (!el) return;
       if (!apiUrl) {
         el.innerText = fallbackText;
         return;
@@ -352,45 +218,30 @@
           el.innerText = fallbackText;
         }
       } catch (e) {
+        console.warn("Traffic API fetch error:", e);
         el.innerText = fallbackText;
       }
     }
 
     async function loadDashboard() {
-      if (currentActiveTab === 'work') {
-        const [ylData, qbData] = await Promise.all([
-          fetchBusETA(API_YUEN_LONG),
-          fetchBusETA(API_QUARRY_BAY),
-          fetchTraffic(GOOGLE_TRAFFIC_API_MORNING, "traffic-morning", "約 45-55 分鐘"),
-          fetchTraffic(GOOGLE_TRAFFIC_API_EVENING, "traffic-evening", "約 45-55 分鐘")
-        ]);
+      const [ylData, qbData] = await Promise.all([
+        fetchBusETA(API_YUEN_LONG),
+        fetchBusETA(API_QUARRY_BAY),
+        fetchTraffic(GOOGLE_TRAFFIC_API_MORNING, "traffic-morning", "約 45-55 分鐘"),
+        fetchTraffic(GOOGLE_TRAFFIC_API_EVENING, "traffic-evening", "約 45-55 分鐘")
+      ]);
 
-        refreshCCTVImages();
-        renderBusRows("shangban-bus", ylData, "968X");
-        renderBusRows("xiaban-bus", qbData, "968X");
-      } else {
-        const [b2pData, xb2Data, b1Data, b9Data] = await Promise.all([
-          fetchBusETA(API_B2P),
-          fetchBusETA(API_XB2),
-          fetchBusETA(API_B1),
-          fetchBusETA(API_B9)
-        ]);
-
-        renderBusRows("bus-b2p", b2pData, "B2P");
-        renderBusRows("bus-xb2", xb2Data, "XB2");
-        renderBusRows("bus-b1", b1Data, "B1");
-        renderBusRows("bus-b9", b9Data, "B9");
-      }
+      refreshCCTVImages();
+      renderBusRows("shangban-bus", ylData);
+      renderBusRows("xiaban-bus", qbData);
     }
 
-    function renderBusRows(elementId, etaList, targetRoute) {
+    function renderBusRows(elementId, etaList) {
       const container = document.getElementById(elementId);
-      if (!container) return;
-      
-      const filtered = etaList.filter(item => item.route === targetRoute && item.eta);
+      const filtered = etaList.filter(item => item.route === "968X" && item.eta);
 
       if (!filtered || filtered.length === 0) {
-        container.innerHTML = `<div class="py-2 text-sm font-bold text-gray-500">暫無即時班次數據</div>`;
+        container.innerHTML = `<div class="py-2 text-sm font-bold text-gray-500">服務只限於平日特定時間 / 暫無數據</div>`;
         return;
       }
 
@@ -435,8 +286,7 @@
     }
 
     function updateTimerUI() {
-      const el = document.getElementById("countdown");
-      if (el) el.innerText = timerSeconds;
+      document.getElementById("countdown").innerText = timerSeconds;
     }
 
     function manualRefresh() {
